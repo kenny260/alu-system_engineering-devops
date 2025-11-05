@@ -1,24 +1,15 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx to:
-#   - Listen on port 80
-#   - Return "Holberton School" when queried at the root (GET /)
+#Installing Nginx on Ubuntu
+#Nginx is listening on port 80
+#The GET request should return a page containing "Holberton School"
 
-# Exit immediately if a command fails
-set -e
+sudo apt-get update && upgrade
+sudo apt-get install nginx -y
 
-# Update package lists and install nginx
-sudo apt-get update -y
-sudo apt-get install -y nginx
-
-# Allow HTTP traffic through UFW (optional if UFW is enabled)
-sudo ufw allow 'Nginx HTTP' || true
-
-# Create or overwrite the default index page
-echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
-
-# Ensure Nginx is running
-sudo systemctl restart nginx
-sudo systemctl enable nginx
-
-# Optional: Print success message
-echo "✅ Nginx is installed and serving 'Holberton School' on port 80."
+#Create a directory called html inside your nginx server
+sudo mkdir /var/www/html
+#Create a file inside that directory called index.html
+sudo touch /var/www/html/index.html
+#Display your message then
+sudo echo "Holberton School" > /var/www/html/index.html
+sudo service nginx restart
