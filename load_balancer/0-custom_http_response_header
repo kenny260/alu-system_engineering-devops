@@ -1,15 +1,16 @@
 #!/usr/bin/env bash
 # This script installs Nginx and sets a custom HTTP header with the server's hostname
 
-# Update package list and install nginx
+# Update and install nginx
 apt-get update -y
 apt-get install nginx -y
 
-# Get the hostname
+# Get hostname
 HOSTNAME=$(hostname)
 
-# Add custom header to the root location block
-sed -i "/^\s*location \/ {/a \\n        add_header X-Served-By \"$HOSTNAME\";" /etc/nginx/sites-available/default
+# Insert header inside the location / block
+CONFIG="/etc/nginx/sites-available/default"
+sed -i "/^\s*location \/ {/a \\n        add_header X-Served-By \"$HOSTNAME\" always;" "$CONFIG"
 
 # Restart nginx using service
 service nginx restart
