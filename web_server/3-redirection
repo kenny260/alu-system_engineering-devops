@@ -1,21 +1,12 @@
 #!/usr/bin/env bash
-#configures Ngix server with a 301 redirect for /redirect_me 
+# Configures Nginx to redirect /redirect_me with a 301 status
 
-# update package list and install Nginx 
-apt-get update -y 
-apt-get install -y ngix 
+# Install nginx
+apt-get update -y
+apt-get install nginx -y
 
-#start nginx service 
-service ngix start
+# Add redirect configuration to default site
+sed -i '/^\s*location \/ {/a \\n    location /redirect_me {\n        return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n    }' /etc/nginx/sites-available/default
 
-#create a simple index page 
-echo "Hello World !">/var/www/html/index.html
-
-# Add redict configuration to the default server block 
-#This adds location block before the existing location/block
-sed -i '/Location\/{/i \    location/redirect_me {\n                return 301 https://www.youtube.com/watch?v=QH2-TGUlwu4;\n        }\n' /etc/nginx/sites-available/default
-# Test nginx configuration
-nginx -t
-
-# Reload Nginx to apply changes
-service nginx reload
+# Restart nginx using service
+service nginx restart
