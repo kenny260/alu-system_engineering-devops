@@ -1,13 +1,21 @@
 #!/usr/bin/env bash
-# Installs and configures nginx to serve a custom page
+# Install and configure Nginx to return "Holberton School for the win!" at the root
 
-# Update package list and install nginx
+# Update package lists
 apt-get update -y
+
+# Install nginx
 apt-get install -y nginx
 
-# Ensure nginx is listening on port 80 (default)
-# Create a custom index.html with required content
+# Ensure nginx is running (without systemctl)
+service nginx start
+
+# Replace the default index page content
+echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
+
+# OR you can overwrite the generic index.html if it exists
 echo "Holberton School for the win!" > /var/www/html/index.html
 
-# Restart nginx without using systemctl
+# Restart nginx to apply any changes (without systemctl)
 service nginx restart
+
