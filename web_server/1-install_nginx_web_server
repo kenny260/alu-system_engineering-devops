@@ -1,21 +1,15 @@
 #!/usr/bin/env bash
-# Install and configure Nginx to return "Holberton School for the win!" at the root
+# Configures a new Ubuntu machine to install and setup Nginx
 
-# Update package lists
+# Update package list
 apt-get update -y
 
 # Install nginx
-apt-get install -y nginx
+apt-get install nginx -y
 
-# Ensure nginx is running (without systemctl)
-service nginx start
-
-# Replace the default index page content
-echo "Holberton School for the win!" > /var/www/html/index.nginx-debian.html
-
-# OR you can overwrite the generic index.html if it exists
+# Create a simple HTML page with "Holberton School"
 echo "Holberton School for the win!" > /var/www/html/index.html
 
-# Restart nginx to apply any changes (without systemctl)
-service nginx restart
-
+# Ensure nginx is configured to listen on port 80 (default configuration should handle this)
+# Start nginx service
+service nginx start
