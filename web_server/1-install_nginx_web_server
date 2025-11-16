@@ -1,18 +1,9 @@
 #!/usr/bin/env bash
-# Installs and configures Nginx to serve a page with 'Holberton School'
+# Installs Nginx and configures it to serve a page with 'Holberton School'
 
-# Update package list and install nginx
-apt-get update -y
-apt-get install nginx -y
+sudo apt-get update -y
+sudo apt-get install nginx -y
 
-# Overwrite default index page with required content
-echo "Holberton School" > /var/www/html/index.html
+echo "Holberton School" | sudo tee /var/www/html/index.html > /dev/null
 
-# Start nginx using service (not systemctl)
-service nginx start
-
-# Confirm nginx is running and listening on port 80
-if ! pgrep nginx > /dev/null; then
-  echo "Nginx failed to start"
-  exit 1
-fi
+sudo service nginx start
