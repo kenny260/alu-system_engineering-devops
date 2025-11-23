@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+# Script to fix Apache in Docker container to serve "Hello Holberton"
+
+# Start Apache service
+service apache2 start
+
+# Create the index.html file with required content
+echo "Hello Holberton" > /var/www/html/index.html
