@@ -1,21 +1,16 @@
 #!/usr/bin/env bash
-# Configure Nginx to run as nginx user on port 8080
+# Configures Nginx to run as the nginx user and listen on port 8080
 
-# Create nginx user
-id nginx &>/dev/null || useradd nginx
+# Change the user in nginx.conf from root to nginx
+sed -i "s/#user www-data;/user nginx;/" /etc/nginx/nginx.conf
 
-# Update nginx configuration
-sed -i 's/^user.*/user nginx;/' /etc/nginx/nginx.conf
-sed -i 's/80/8080/g' /etc/nginx/sites-enabled/default
+# Change listening port from 80 to 8080 in default site configuration
+sed -i "s/listen 80 default_server;/listen 8080 default_server;/" /etc/nginx/sites-available/default
+sed -i "s/listen \[::\]:80 default_server;/listen \[::\]:8080 default_server;/" /etc/nginx/sites-available/default
 
-# Give nginx ownership of necessary directories
-chown -R nginx:nginx /var/log/nginx
-chown -R nginx:nginx /var/lib/nginx
-touch /run/nginx.pid
-chown nginx:nginx /run/nginx.pid
+# Kill any existing Nginx processes
+pkill apache2
 
-# Stop nginx
-pkill nginx
-
-# Start nginx as nginx user
-sudo -u nginx /usr/sbin/nginx
+# Start Nginx as nginx user
+chmod 644 /etc/nginx/nginx.conf
+su nginx -s /bin/bash -c 'service nginx restart'
